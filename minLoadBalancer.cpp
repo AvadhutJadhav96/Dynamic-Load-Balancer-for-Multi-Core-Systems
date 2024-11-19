@@ -271,8 +271,7 @@ int main() {
     for (int i = 0; i < num_processes; ++i) {
         int id, arrival_time, execution_time, load, priority;
         cout << "Enter details for Process " << (i + 1) << ":\n";
-        cout << "ID: ";
-        cin >> id;
+        id = id+1;
         cout << "Arrival time (ms): ";
         cin >> arrival_time;
         cout << "Execution time (ms): ";
