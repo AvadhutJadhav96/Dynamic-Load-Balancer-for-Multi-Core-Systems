@@ -24,12 +24,6 @@ struct Process {
     Process() {}
 };
 
-// Comparator for process priority
-struct ComparePriority {
-    bool operator()(const Process& a, const Process& b) {
-        return a.priority < b.priority;
-    }
-};
 
 // Core class simulates a processing unit
 class Core {
@@ -95,7 +89,6 @@ public:
     vector<Core*> cores;
     mutex ready_queue_mtx;
     int which_core_turn = 0;
-    condition_variable cv;
     thread balancer_thread;
     bool stop = false;
     int num_cores = 0;
@@ -204,6 +197,11 @@ public:
     }
 };
 
+bool cmp(Process a , Process b)
+{
+    return a.arrival_time < b.arrival_time;
+}
+
 int main() {
     int num_cores = 2;
     Scheduler scheduler(num_cores);
@@ -229,6 +227,8 @@ int main() {
         processes.push_back(p);
     }
 
+    sort(processes.begin(),processes.end(),cmp);
+
     scheduler.start();
 
     auto start_time = chrono::steady_clock::now();
@@ -245,7 +245,6 @@ int main() {
 
     this_thread::sleep_for(chrono::seconds(5));
     scheduler.stop = true;
-    scheduler.cv.notify_all();
     this_thread::sleep_for(chrono::milliseconds(100));
     scheduler.display_assignment();
 
