@@ -1,6 +1,5 @@
 #include <thread>
 #include <mutex>
-#include <condition_variable>
 #include <chrono>
 #include <atomic>
 #include <bits/stdc++.h>
@@ -207,25 +206,38 @@ int main() {
     Scheduler scheduler(num_cores);
     vector<Process> processes;
 
-    cout << "Enter the number of processes: ";
-    int num_process; cin >> num_process;
+    processes = {
+        {1, 0, 125, LOW_LOAD, 1},
+        {2, 5, 150, HIGH_LOAD, 3},
+        {3, 10, 150, LOW_LOAD, 2},
+        {4, 15, 100, HIGH_LOAD, 1}
+        // {5, 20, 180, LOW_LOAD, 2},
+        // {6, 25, 220, HIGH_LOAD, 3},
+        // {7, 30, 170, LOW_LOAD, 1},
+        // {8, 35, 120, HIGH_LOAD, 2},
+        // {9, 40, 140, LOW_LOAD, 3},
+        // {10, 45, 160, HIGH_LOAD, 1}
+    };
 
-    for (int i = 0; i < num_process; ++i) {
-        Process p;
-        p.id = i + 1;
-        cout << "Process " << i + 1 << ":\n";
-        cout<< "Enter the info for the Process " << i+1 << endl;
-        cout << "Arrival time: "; cin >> p.arrival_time;
-        cout << "Execution time: "; cin >> p.total_execution_time;
-        p.remaining_time = p.total_execution_time;
+    // cout << "Enter the number of processes: ";
+    // int num_process; cin >> num_process;
 
-        cout << "Load type (H for High, M for Medium, L for Low): ";
-        char c; cin >> c;
-        p.load = (c == 'H' ? HIGH_LOAD : (c == 'M' ? MEDIUM_LOAD : LOW_LOAD));
+    // for (int i = 0; i < num_process; ++i) {
+    //     Process p;
+    //     p.id = i + 1;
+    //     cout << "Process " << i + 1 << ":\n";
+    //     cout<< "Enter the info for the Process " << i+1 << endl;
+    //     cout << "Arrival time: "; cin >> p.arrival_time;
+    //     cout << "Execution time: "; cin >> p.total_execution_time;
+    //     p.remaining_time = p.total_execution_time;
 
-        cout << "Priority: "; cin >> p.priority;
-        processes.push_back(p);
-    }
+    //     cout << "Load type (H for High, M for Medium, L for Low): ";
+    //     char c; cin >> c;
+    //     p.load = (c == 'H' ? HIGH_LOAD : (c == 'M' ? MEDIUM_LOAD : LOW_LOAD));
+
+    //     cout << "Priority: "; cin >> p.priority;
+    //     processes.push_back(p);
+    // }
 
     sort(processes.begin(),processes.end(),cmp);
 
